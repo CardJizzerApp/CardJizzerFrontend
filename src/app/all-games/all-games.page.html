@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>All Games</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let game of games" (click)="joinGame(game)">
+      <ion-label>{{game.title}}</ion-label>
+      {{game.currentPlayers.length}}/{{game.maxPlayers}}
+      <ion-icon name="lock" *ngIf="game.passwordRequired"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>

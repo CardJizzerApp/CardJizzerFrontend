@@ -8,45 +8,65 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'all-games',
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../tab1/tab1.module').then(m => m.Tab1PageModule)
+              import('../all-games/all-games.module').then(m => m.AllGamesPageModule)
           }
         ]
       },
       {
-        path: 'tab2',
+        path: 'current-game',
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+              import('../current-game/current-game.module').then(m => m.CurrentGamePageModule)
           }
         ]
       },
       {
-        path: 'tab3',
+        path: 'your-decks',
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+              import('../your-decks/your-decks.module').then(m => m.YourDecksPageModule)
+          }
+        ]
+      },
+      {
+        path: 'create-game',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../create-game/create-game.module').then(m => m.CreateGamePageModule)
+          }
+        ]
+      },
+      {
+        path: 'create-deck',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../create-deck/create-deck.module').then(m => m.CreateDeckPageModule)
           }
         ]
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/all-games',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/all-games',
     pathMatch: 'full'
   }
 ];

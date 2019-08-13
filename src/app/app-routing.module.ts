@@ -5,7 +5,13 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  }
+  },
+  { path: 'all-games', loadChildren: './all-games/all-games.module#AllGamesPageModule' },
+  { path: 'current-game', loadChildren: './current-game/current-game.module#CurrentGamePageModule' },
+  { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
+  { path: 'your-decks', loadChildren: './your-decks/your-decks.module#YourDecksPageModule' },
+  { path: 'create-game', loadChildren: './create-game/create-game.module#CreateGamePageModule' },
+  { path: 'create-deck', loadChildren: './create-deck/create-deck.module#CreateDeckPageModule' }
 ];
 @NgModule({
   imports: [

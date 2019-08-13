@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Current game</ion-title>
+    <ion-buttons slot="end">
+        <ion-button>
+          CONFIRM SELECTION 
+          <ion-icon name="send" autoHide="false"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="game-heading">
+    <div class="game-card black">
+      {{currentBlackCardDisplayname()}}
+    </div>
+  </div>
+  <div class="wrapper">
+      <p class="heading">All cards</p>
+      <div class="scrollable">
+        <div class="game-card" *ngFor="let card of allcards">
+        </div>
+      </div>
+  </div>
+  <div class="wrapper">
+      <p class="heading">Your cards</p>
+      <div class="scrollable">
+        <div class="game-card" *ngFor="let card of mycards">
+          {{card}}
+        </div>
+      </div>
+  </div>
+
+</ion-content>
