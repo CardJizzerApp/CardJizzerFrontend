@@ -9,7 +9,7 @@ import { AlertController } from '@ionic/angular';
 export class AllGamesPage implements OnInit {
 
   games: Game[] = [{
-    title: "Hello!",
+    title: 'Hello!',
     passwordRequired: true,
     maxPlayers: 4,
     currentPlayers: ['IJustDev', 'Test']
