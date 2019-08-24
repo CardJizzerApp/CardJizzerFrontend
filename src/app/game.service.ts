@@ -16,7 +16,7 @@ export class GameService {
 
   fetchGames() {
     this.allGames = [];
-    this.global.sendCommand("fetchgames");
+    this.global.sendCommand('fetchgames');
   }
 
 }

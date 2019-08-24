@@ -1,9 +1,9 @@
 import { Player } from './player';
 
 export interface EventErrorCode {
-    errorCode: number,
-    callback: (args: any[]) => void,
-};
+    errorCode: number;
+    callback: (args: any[]) => void;
+}
 
 export class ErrorCodes {
 
@@ -13,7 +13,7 @@ export class ErrorCodes {
         this.allErrorCodes.push({
             errorCode: 101,
             callback: (args: any[]) => {
-                
+
             },
         });
     }

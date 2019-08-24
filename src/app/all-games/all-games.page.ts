@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { Game } from '../../helper/Game';
+import { GlobalService } from '../global.service';
 
 @Component({
   selector: 'app-all-games',
@@ -8,20 +10,22 @@ import { AlertController } from '@ionic/angular';
 })
 export class AllGamesPage implements OnInit {
 
-  games: Game[] = [{
-    title: 'Hello!',
-    passwordRequired: true,
-    maxPlayers: 4,
-    currentPlayers: ['IJustDev', 'Test']
-  }];
+  games: Game[] = [new Game('TestGame', true, 20)];
 
-  constructor(private alertCtrl: AlertController) { }
+  constructor(private alertCtrl: AlertController, private global: GlobalService) { }
 
   ngOnInit() {
+    setTimeout(() => {
+      for (let i = 0; i !== this.global.eventStack.length; i++) {
+        const event = this.global.eventStack[i];
+        const errorCode = event.errorCode;
+
+      }
+    }, 1000);
   }
 
   joinGame(game: Game) {
-    if (game.passwordRequired) {
+    if (game.PasswordRequired) {
       this.presentAlert();
     }
   }
@@ -30,9 +34,9 @@ export class AllGamesPage implements OnInit {
     const alert = await this.alertCtrl.create({
       header: 'Password required',
       inputs: [{
-        type: "password",
-        name: "password",
-        placeholder: "Password"
+        type: 'password',
+        name: 'password',
+        placeholder: 'Password'
       }],
       message: 'Please enter the lobby password.',
       buttons: [
@@ -52,10 +56,4 @@ export class AllGamesPage implements OnInit {
     await alert.present();
   }
 
-}
-export interface Game {
-  title: string,
-  passwordRequired: boolean,
-  maxPlayers: number,
-  currentPlayers: any[],
 }

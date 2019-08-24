@@ -19,7 +19,7 @@ export class CurrentGamePage implements OnInit {
 
   currentBlackCardDisplayname() {
     const reg = /\{w}/g;
-    return this.currentBlackCard.replace(reg, "__________");
+    return this.currentBlackCard.replace(reg, '__________');
   }
 
 }

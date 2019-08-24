@@ -2,13 +2,26 @@ export class Game {
 
 
     private maxPlayers: number;
-    private amountPlayers: number;
+    private amountOfCurrentPlayers: number;
     private passwordRequired: boolean;
-    
-    public Game(passwordRequired: boolean, maxPlayers: number, amountPlayers: number) {
+    private title: string;
+
+    public constructor(title: string, passwordRequired: boolean, maxPlayers: number) {
         this.passwordRequired = passwordRequired;
         this.maxPlayers = maxPlayers;
-        this.amountPlayers = amountPlayers;
+        this.title = title;
+    }
+
+    public updateAmountOfCurrentPlayers(newAmount: number) {
+        this.amountOfCurrentPlayers = newAmount;
+    }
+
+    get AmountOfCurrentPlayers() {
+        return this.amountOfCurrentPlayers;
+    }
+
+    get PasswordRequired(): boolean {
+        return this.passwordRequired;
     }
 
 }
