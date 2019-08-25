@@ -11,7 +11,6 @@ export class Game {
         this.maxPlayers = maxPlayers;
         this.title = title;
     }
-
     public updateAmountOfCurrentPlayers(newAmount: number) {
         this.amountOfCurrentPlayers = newAmount;
     }

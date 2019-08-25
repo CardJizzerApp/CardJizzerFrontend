@@ -18,51 +18,67 @@ export enum EventType {
 })
 export class GlobalService {
 
-  public WEBSOCKETURL = 'https://mypenink.com/cah-backend/';
-
-  public commandStack: [{ id: number, command: string, response: object }];
-
+  public WEBSOCKETURL = 'wss://cah.mypenink.com/';
   public websocket: WebSocket;
 
+  public commandStack: [{ id: number, command: string, response: object }] = new Array();
+
+  private currentCommandId = 0;
+  private loggedIn = false;
   constructor() {
     this.websocket = new WebSocket(this.WEBSOCKETURL);
+    this.websocket.onclose = ev => {
+      this.sendCommand('logout');
+    };
     this.parseResponses();
-
-    setTimeout(() => {
-      this.runCommand();
-    }, 100);
   }
 
-  runCommand() {
-    for (let i = 0; i !== this.commandStack.length; i++) {
-      let response;
-      this.websocket.send(this.commandStack[i].command);
-      this.websocket.onmessage = (e) => {
-        response = e.data;
-      };
-      console.log(response);
-    }
-  }
-
-  queueCommand(command): Promise<object> {
-    const id = Object.keys(this.commandStack).length;
-    this.commandStack.push({ id, command, response: undefined });
-    return new Promise(resolve => {
-      if (this.commandStack[id].response !== undefined) {
-        return this.commandStack[id].response;
+  login(username) {
+    this.sendCommand('setusername ' + username).then(response => {
+      if (response.errorCode === 0) {
+        return true;
       }
+      return false;
+    });
+  }
+
+  sendCommand(command): Promise<{errorCode: number, jsonData: object}> {
+    this.currentCommandId += 1;
+    return new Promise(resolve => {
+      this.commandStack.push({id: this.currentCommandId, command, response: undefined});
+      const handle = setTimeout(() => {
+        const command = this.findCommandById(this.currentCommandId);
+        if (command.response !== undefined) {
+          const obj = command.response;
+          delete this.commandStack[this.commandStack.indexOf(command)];
+          clearTimeout(handle);
+          resolve({errorCode: obj.errorCode, jsonData: obj.jsonData});
+        }
+      }, 100);
+      this.websocket.send(this.currentCommandId + ';' + command);
     });
   }
 
   parseResponses() {
     this.websocket.onmessage = (e) => {
       const message = e.data;
-      const response = JSON.parse(message);
-      const errorCode = response.errorCode;
-      const ev: Event = { data: response.data, errorCode: response.errorCode, eventType: EventType.SEND_TO_ALL };
-      this.eventStack[id];
+      const commandResponse = message.split(';').length === 2 && JSON.parse(message.split(';')[1]) !== undefined;
+      const commandId = commandResponse ? Number.parseInt(message.split(';')[0]) : undefined;
+      if (commandResponse) {
+        const command = this.findCommandById(commandId);
+        command.response = JSON.parse(message.split(';')[1]);
+      }
     };
+  }
 
+  findCommandById(id) {
+    for (let i = 0; i !== this.commandStack.length; i++) {
+      const command = this.commandStack[i];
+      if (command !== undefined && command.id === id) {
+        return command;
+      }
+    }
+    return undefined;
   }
 
 }

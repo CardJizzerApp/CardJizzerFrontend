@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { Game } from '../../helper/Game';
-import { GlobalService } from '../global.service';
+import { Game } from '../../helper/game';
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'app-all-games',
@@ -12,22 +12,36 @@ export class AllGamesPage implements OnInit {
 
   games: Game[] = [new Game('TestGame', true, 20)];
 
-  constructor(private alertCtrl: AlertController, private global: GlobalService) { }
+  constructor(private alertCtrl: AlertController, private gameService: GameService) { }
 
-  ngOnInit() {
-    setTimeout(() => {
-      for (let i = 0; i !== this.global.eventStack.length; i++) {
-        const event = this.global.eventStack[i];
-        const errorCode = event.errorCode;
+  ngOnInit() { }
 
-      }
-    }, 1000);
+  ngViewDidLoad() {
+    this.fetchGames();
+  }
+
+  fetchGames() {
+    this.games = [];
+    this.gameService.fetchGames().then(response => {
+      console.log(response);
+      // for (let i = 0; i !== response.length; i++) {
+      //   const gameJSON = response[i];
+      //   this.games.push(new Game(
+      //     gameJSON.title,
+      //     false,
+      //     gameJSON.maxPlayers));
+      // }
+    });
   }
 
   joinGame(game: Game) {
     if (game.PasswordRequired) {
       this.presentAlert();
     }
+  }
+
+  ionViewWillLeave() {
+    console.log('Leave');
   }
 
   async presentAlert() {

@@ -14,9 +14,14 @@ export class GameService {
     return true;
   }
 
-  fetchGames() {
-    this.allGames = [];
-    this.global.sendCommand('fetchgames');
+  async fetchGames(): Promise<object | object[]> {
+    // creategame maxplayers:number deckIds:number[] password:string pointsToWin:number maxRoundTime:number gameTitle:string
+    // creategame 4 0 false 20 SomeTitle
+    // creategame 4 0 false 4 20 someTitle
+    return this.global.sendCommand('fetchgames').then(response => {
+      console.log(response);
+      return response.jsonData;
+    });
   }
 
 }
