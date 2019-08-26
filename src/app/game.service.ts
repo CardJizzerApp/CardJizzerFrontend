@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GlobalService, NotLoggedInException } from './global.service';
-import { runInThisContext } from 'vm';
+import { GlobalService } from './global.service';
 
 
 export class AlreadyIngameException extends Error {
@@ -116,7 +115,8 @@ export class GameService {
   }
 
   join(gameUUID): Promise<any> {
-    return this.global.sendCommand(`join ${gameUUID}`).then(response => {
+    return this.global.sendCommand(`join ${gameUUID}`, true).then(response => {
+      console.log(response);
       if (this.currentGame !== undefined || response.errorCode !== 0) {
         throw new AlreadyIngameException();
       }

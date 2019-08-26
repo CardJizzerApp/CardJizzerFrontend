@@ -1,0 +1,49 @@
+.games-list {
+    width: 100%;
+    height: 100%;
+    list-style-type: none;
+    margin: 0;
+    padding: 10px;
+    .game-item {
+        display: flex;
+        width: 100%;
+        padding: 15px;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 100px;
+        flex-grow: 1;
+        background-color: #ECF0F1;
+        flex-direction: row;
+        .lock-icon {
+            width: 64px;
+            height: 64px;
+            font-size: 30pt;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            border-radius: 50%;
+        }
+        .open {
+            background-color: #16A085;
+        }
+        .locked {
+            background-color: #C0392B;
+        }
+        .current-player-icon {
+            background-color: #2980B9;
+        }
+        .join-btn {
+            border-radius: 50%;
+            text-align: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            font-size: 30pt;
+            color: white;
+            box-shadow: 0px 1px 2px 1px #2EB7A6;
+            background-image: linear-gradient(90deg, #2EB7A6, 0%, #0DAB50 100%);
+        }
+    }
+}
+
