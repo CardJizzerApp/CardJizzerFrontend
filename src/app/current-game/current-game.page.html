@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Current game</ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" *ngIf="shouldDisplayGamePanel">
         <ion-button>
           CONFIRM SELECTION 
           <ion-icon name="send" autoHide="false"></ion-icon>
@@ -10,7 +10,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="shouldDisplayGamePanel">
 
   <div class="game-heading">
     <div class="game-card black">
@@ -32,5 +32,10 @@
         </div>
       </div>
   </div>
+
+</ion-content>
+
+<ion-content *ngIf="!shouldDisplayGamePanel">
+  <h1>Du bist aktuell in keinem Spiel</h1>
 
 </ion-content>

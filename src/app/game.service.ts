@@ -21,7 +21,7 @@ export class NotIngameException extends Error {
   providedIn: 'root'
 })
 export class GameService {
-  private currentGame = undefined;
+  public currentGame = undefined;
 
   constructor(private global: GlobalService) { }
   fetchNames(): Promise<any[]> {

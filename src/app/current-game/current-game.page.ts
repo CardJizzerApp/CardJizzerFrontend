@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'app-current-game',
@@ -8,11 +9,21 @@ import { NavController } from '@ionic/angular';
 })
 export class CurrentGamePage implements OnInit {
 
-  mycards = ['Hurensohn', 'Fotze', 'Dreiköpfige Schlange.'];
-  allcards = ['1-IJustDev', '2-IJustDev'];
-  currentBlackCard = 'Mein Vater kam in mein Zimmer und sagte: "{w}, du kleiner {w}".';
+  public shouldDisplayGamePanel = false;
 
-  constructor() { }
+  private mycards = ['Hurensohn', 'Fotze', 'Dreiköpfige Schlange.'];
+  private allcards = ['1-IJustDev', '2-IJustDev'];
+  private currentBlackCard = 'Mein Vater kam in mein Zimmer und sagte: "{w}, du kleiner {w}".';
+  constructor(private game: GameService) { }
+
+  ionViewWillEnter() {
+    console.log("Loaded");
+    if (this.game.currentGame !== undefined) {
+      this.shouldDisplayGamePanel = true;
+    } else {
+      this.shouldDisplayGamePanel = false;
+    }
+  }
 
   ngOnInit() {
   }
