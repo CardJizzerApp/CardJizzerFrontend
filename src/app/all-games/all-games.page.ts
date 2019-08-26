@@ -23,14 +23,13 @@ export class AllGamesPage implements OnInit {
   fetchGames() {
     this.games = [];
     this.gameService.fetchGames().then(response => {
-      console.log(response);
-      // for (let i = 0; i !== response.length; i++) {
-      //   const gameJSON = response[i];
-      //   this.games.push(new Game(
-      //     gameJSON.title,
-      //     false,
-      //     gameJSON.maxPlayers));
-      // }
+      for (let i = 0; i !== response.length; i++) {
+        const gameJSON = response[i];
+        this.games.push(new Game(
+          gameJSON.title,
+          false,
+          gameJSON.maxplayers));
+      }
     });
   }
 
@@ -40,9 +39,7 @@ export class AllGamesPage implements OnInit {
     }
   }
 
-  ionViewWillLeave() {
-    console.log('Leave');
-  }
+  ionViewWillLeave() {}
 
   async presentAlert() {
     const alert = await this.alertCtrl.create({
@@ -57,7 +54,6 @@ export class AllGamesPage implements OnInit {
         {
           text: 'Log in',
           handler: data => {
-            console.log(data.password);
           }
         },
         {

@@ -1,16 +1,11 @@
 import { Injectable } from '@angular/core';
 
-export interface Event {
-  eventType: EventType;
-  errorCode: number;
-  data: object;
-}
 
-export enum EventType {
-  ALL_GAMES = 0,
-  CURRENT_GAME = 1,
-  MY_DECKS = 2,
-  SEND_TO_ALL = 3,
+export class NotLoggedInException extends Error {
+  constructor() {
+    super();
+    Error.apply(this, arguments);
+  }
 }
 
 @Injectable({
@@ -21,7 +16,7 @@ export class GlobalService {
   public WEBSOCKETURL = 'wss://cah.mypenink.com/';
   public websocket: WebSocket;
 
-  public commandStack: [{ id: number, command: string, response: object }] = new Array();
+  public commandStack: [{ id: number, command: string, response: any }] = [{id: -1, command: '', response: undefined}];
 
   private currentCommandId = 0;
   private loggedIn = false;
@@ -42,19 +37,24 @@ export class GlobalService {
     });
   }
 
-  sendCommand(command): Promise<{errorCode: number, jsonData: object}> {
+  sendCommand(command: string, logInRequired?: boolean): Promise<{errorCode: number, jsonData: any}> {
+    if (logInRequired) {
+      if (!this.loggedIn || this.websocket === undefined || this.websocket.readyState !== 1) {
+        throw new NotLoggedInException();
+      }
+    }
     this.currentCommandId += 1;
     return new Promise(resolve => {
       this.commandStack.push({id: this.currentCommandId, command, response: undefined});
       const handle = setTimeout(() => {
-        const command = this.findCommandById(this.currentCommandId);
-        if (command.response !== undefined) {
-          const obj = command.response;
-          delete this.commandStack[this.commandStack.indexOf(command)];
+        const cmd = this.findCommandById(this.currentCommandId);
+        if (cmd.response !== undefined) {
+          const obj = cmd.response;
+          delete this.commandStack[this.commandStack.indexOf(cmd)];
           clearTimeout(handle);
           resolve({errorCode: obj.errorCode, jsonData: obj.jsonData});
         }
-      }, 100);
+      }, 50);
       this.websocket.send(this.currentCommandId + ';' + command);
     });
   }
@@ -63,6 +63,7 @@ export class GlobalService {
     this.websocket.onmessage = (e) => {
       const message = e.data;
       const commandResponse = message.split(';').length === 2 && JSON.parse(message.split(';')[1]) !== undefined;
+      // tslint:disable
       const commandId = commandResponse ? Number.parseInt(message.split(';')[0]) : undefined;
       if (commandResponse) {
         const command = this.findCommandById(commandId);

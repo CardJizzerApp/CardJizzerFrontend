@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'app-create-game',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-game.page.scss'],
 })
 export class CreateGamePage implements OnInit {
+  @ViewChild('title', {read: true, static: false}) title: ElementRef;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  createGame() {
+    // TODO: this.game.createGame()
   }
 
 }
