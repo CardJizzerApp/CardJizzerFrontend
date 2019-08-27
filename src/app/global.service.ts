@@ -18,8 +18,9 @@ export class GlobalService {
 
   public commandStack: [{ id: number, command: string, response: any }] = [{id: -1, command: '', response: undefined}];
 
+  public loggedIn = false;
+
   private currentCommandId = 0;
-  private loggedIn = false;
   constructor() {
     this.websocket = new WebSocket(this.WEBSOCKETURL);
     this.websocket.onclose = ev => {
@@ -31,6 +32,7 @@ export class GlobalService {
   login(username) {
     this.sendCommand('setusername ' + username).then(response => {
       if (response.errorCode === 0) {
+        this.loggedIn = true;
         return true;
       }
       return false;

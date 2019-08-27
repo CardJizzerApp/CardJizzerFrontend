@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Game } from '../../helper/game';
 import { GameService } from '../game.service';
@@ -10,6 +10,7 @@ import { GlobalService } from '../global.service';
   styleUrls: ['./all-games.page.scss'],
 })
 export class AllGamesPage implements OnInit {
+  @ViewChild('username', {read: ElementRef, static: false}) username: ElementRef;
 
   games: Game[] = [new Game('TestGame', true, 20, '20')];
 
@@ -25,7 +26,7 @@ export class AllGamesPage implements OnInit {
     console.log('MMH');
   }
   login() {
-    this.gameService.login('Fotzes').then(response => {
+    this.gameService.login(this.username.nativeElement.value).then(response => {
       console.log(response);
     });
   }
@@ -40,7 +41,7 @@ export class AllGamesPage implements OnInit {
           gameJSON.title,
           false,
           gameJSON.maxplayers,
-          gameJSON.uuid
+          gameJSON.id
         ));
       }
     });
@@ -52,6 +53,7 @@ export class AllGamesPage implements OnInit {
   }
 
   joinGame(game: Game) {
+    console.log(game.Id);
     if (game.PasswordRequired) {
       this.presentAlert();
     }

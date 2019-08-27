@@ -82,6 +82,7 @@ export class GameService {
 
   login(username): Promise<any> {
     return this.global.sendCommand(`setusername ${username}`, false).then(response => {
+      this.global.loggedIn = response.errorCode === 0;
       return response;
     });
   }

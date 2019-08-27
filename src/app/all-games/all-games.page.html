@@ -4,9 +4,12 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-button (click)='fetchGames()'>Refresh games</ion-button>
-  <ion-button (click)='login()'>Set Username</ion-button>
-  <input type="text" class="nice-input" placeholder="Gametitle"/>
+  <div class="controls" style="margin-top: 5px;">
+      <ion-button (click)='fetchGames()'>Refresh games</ion-button>
+      <ion-button (click)='login()'>Set Username</ion-button>
+      <input type="text" #username class="nice-input" placeholder="Gametitle"/>
+  </div>
+  
   <ul class="games-list">
     <li class="game-item" *ngFor="let game of games">
       <!-- <img class="lock-icon" src="../assets/lock-icon.svg"/> -->
