@@ -5,15 +5,21 @@
     margin: 0;
     padding: 10px;
     .game-item {
+        margin: 5px;
         display: flex;
         width: 100%;
-        padding: 15px;
+        padding: 10px;
         align-items: center;
         justify-content: space-between;
         border-radius: 100px;
         flex-grow: 1;
         background-color: #ECF0F1;
         flex-direction: row;
+        font-size: 20pt;
+        .item-end {
+            display: flex;
+            flex-direction: row;
+        }
         .lock-icon {
             width: 64px;
             height: 64px;
@@ -30,8 +36,17 @@
         .locked {
             background-color: #C0392B;
         }
-        .current-player-icon {
+        .current-players-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             background-color: #2980B9;
+            margin-right: 5px;
+            font-size: 14pt;
         }
         .join-btn {
             border-radius: 50%;
@@ -41,8 +56,7 @@
             height: 64px;
             font-size: 30pt;
             color: white;
-            box-shadow: 0px 1px 2px 1px #2EB7A6;
-            background-image: linear-gradient(90deg, #2EB7A6, 0%, #0DAB50 100%);
+            background: linear-gradient(90deg, #2EB7A6 0%, #0DAB50 100%);
         }
     }
 }

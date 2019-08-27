@@ -5,6 +5,7 @@ export class Game {
     private amountOfCurrentPlayers: number;
     private passwordRequired: boolean;
     private title: string;
+    private joinable: boolean;
 
     public constructor(title: string, passwordRequired: boolean, maxPlayers: number, id: string) {
         this.passwordRequired = passwordRequired;
@@ -12,6 +13,7 @@ export class Game {
         this.amountOfCurrentPlayers = 0;
         this.title = title;
         this.id = id;
+        this.joinable = maxPlayers >= 4;
     }
     public updateAmountOfCurrentPlayers(newAmount: number) {
         this.amountOfCurrentPlayers = newAmount;

@@ -26,3 +26,118 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 @import url('https://fonts.googleapis.com/css?family=Raleway:400,900&display=swap');
+* {
+    font-family: 'Raleway', sans-serif;
+}
+.btn {
+    box-shadow: 0px 5px 10px rgba(0, 91, 42, 0.32);
+    transition: 0.5s;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.full {
+    display: flex;
+    flex-basis: 100%;
+}
+
+.btn:hover {
+    box-shadow: 0px 2px 4px rgba(0, 91, 42, 0.32);
+    transition: 0.5s;
+}
+
+.btn:active {
+    box-shadow: 0px 3px rgba(1, 19, 9, 0.32);
+    transition: 0.3s;
+}
+
+.alert-box {
+    display: flex;
+    width: 50%;
+    height: 50%;
+    background-color: #2C3E50;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    flex-direction: column;
+    z-index: 100;
+    box-shadow: 1px 5px 10px rgba(1, 19, 9, 0.32);
+    border-radius: 20px;
+    .alert-box-header {
+        top: 0;
+        width: 100%;
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        border-radius: 19px 19px 0 0;
+        min-height: 50px;
+        height: 10%;
+        color: black;
+        font-size: 20pt;
+        text-transform: uppercase;
+        font-weight: bold;
+        background-color: white;
+    }
+    .alert-box-content {
+        display: flex;
+        padding: 20px;
+        color: white;
+    }
+    .btn-section {
+        width: 100%;
+        display: flex;
+        padding: 10px;
+        justify-content: space-evenly;
+        
+    }
+}
+
+.okay-btn {
+    width: 200px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(90deg, #2BD9AF 0%, #1BBB94 50.52%, #0DA27D 100%);
+    border-radius: 25px;
+}
+
+.cancel-btn {
+    width: 200px;
+    height: 40px;
+    background: linear-gradient(90deg, #E74C3C 0%, #C0392B 100%);
+    border-radius: 25px;
+    justify-content: center;
+    align-items: center;
+}
+
+.nice-input {
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    background-color: white;
+    padding: 10px;
+    background: #FFFFFF;
+    color: #636e72;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    text-transform: capitalize;
+}
+.nice-input:focus {
+    transition: 1s;
+    box-shadow: 0px 4px 5px #0985e349;
+}
+.nice-input:not(:focus) {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    transition: 1s;
+}
+::placeholder {
+    color: #93a0a5;
+    font-style: italic;
+}
