@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GlobalService } from './global.service';
+import { Game } from 'src/helper/game';
 
 
 export class AlreadyIngameException extends Error {
@@ -20,9 +21,57 @@ export class NotIngameException extends Error {
   providedIn: 'root'
 })
 export class GameService {
-  public currentGame = undefined;
+  public currentGame: Game = undefined;
 
-  constructor(private global: GlobalService) { }
+  constructor(private global: GlobalService) {
+    // Eventhandler - each 0.1 seconds all event's are being checked.
+    setTimeout(this.handleEvents, 100);
+  }
+
+  handleEvents() {
+    for (let i = 0; i !== this.global.eventStack.length; i++) {
+      const event = this.global.eventStack[i];
+      const data = event.jsonData;
+      const errorCode = event.errorCode;
+      switch (errorCode) {
+        case 100000:
+          // Ping-event
+          this.global.websocket.send('PONG');
+          break;
+        case 100101:
+          // Card has been played event
+          break;
+        case 100102:
+          // Cardjizzer has picked a card event || aka Round over and winner found event
+          break;
+        case 100103:
+          // Player has joined the game event
+          if (!this.currentGame.addPlayer(data)) {
+            throw new Error('Player is already a part of the game.');
+          }
+          break;
+        case 100104:
+          // Game has started event
+          this.currentGame.start();
+          break;
+        case 100105:
+          // Game over event
+          this.currentGame.stop();
+          this.currentGame = undefined;
+          break;
+        case 100106:
+          // New round has started has started event
+          break;
+        case 100107:
+          // Cards have been flipped event
+          break;
+        case 100108:
+          // A new game has been created event
+          break;
+      }
+    }
+  }
+
   fetchNames(): Promise<any[]> {
     return this.global.sendCommand('start').then(response => {
       if (this.currentGame === undefined || response.errorCode !== 0) {

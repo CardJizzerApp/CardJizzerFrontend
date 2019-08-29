@@ -17,7 +17,7 @@ export class GlobalService {
   public websocket: WebSocket;
 
   public commandStack: [{ id: number, command: string, response: any }] = [{id: -1, command: '', response: undefined}];
-
+  public eventStack: [{jsonData: any, errorCode: number}];
   public loggedIn = false;
 
   private currentCommandId = 0;
@@ -64,12 +64,20 @@ export class GlobalService {
   parseResponses() {
     this.websocket.onmessage = (e) => {
       const message = e.data;
-      const commandResponse = message.split(';').length === 2 && JSON.parse(message.split(';')[1]) !== undefined;
-      // tslint:disable
-      const commandId = commandResponse ? Number.parseInt(message.split(';')[0]) : undefined;
-      if (commandResponse) {
-        const command = this.findCommandById(commandId);
-        command.response = JSON.parse(message.split(';')[1]);
+      if (message.startsWith('100')) {
+        // It's an event.
+        const response = JSON.parse(message);
+        console.log(response);
+        this.eventStack.push({jsonData: response.jsonData, errorCode: response.errorCode});
+      } else {
+        // It's an command.
+        const commandResponse = message.split(';').length === 2 && JSON.parse(message.split(';')[1]) !== undefined;
+        // tslint:disable
+        const commandId = commandResponse ? Number.parseInt(message.split(';')[0]) : undefined;
+        if (commandResponse) {
+          const command = this.findCommandById(commandId);
+          command.response = JSON.parse(message.split(';')[1]);
+        }
       }
     };
   }

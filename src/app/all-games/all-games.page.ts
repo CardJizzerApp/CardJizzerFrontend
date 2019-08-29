@@ -47,11 +47,6 @@ export class AllGamesPage implements OnInit {
     });
   }
 
-  ngOnDestroy() {
-    this.globalService.sendCommand('logout');
-    this.globalService.websocket.close();
-  }
-
   joinGame(game: Game) {
     console.log(game.Id);
     if (game.PasswordRequired) {
