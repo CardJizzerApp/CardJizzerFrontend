@@ -1,0 +1,12 @@
+Version 0.0.4:
+- [] UI/UX improvements (more releastic button press)
+- [] Implement remaining events: [] GameChangedEvent (when a player joined any game) [] PlayerLeftGame [] PlayerJoinedGame
+- [] Real titles for the games.
+- [] More responsive UI
+- [] Controls for refreshing the game list
+- [] Create game page
+- [] Dockerfile
+
+Version 0.0.5:
+- [] Use the data fetched from server for the current game tab
+- [] Dynamic password known by the server

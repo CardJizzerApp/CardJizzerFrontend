@@ -16,8 +16,8 @@ export class GlobalService {
   public WEBSOCKETURL = 'wss://cah.mypenink.com/';
   public websocket: WebSocket;
 
-  public commandStack: [{ id: number, command: string, response: any }] = [{id: -1, command: '', response: undefined}];
-  public eventStack: [{jsonData: any, errorCode: number}];
+  public commandStack: [{ id: number, command: string, response: any }] = [] as any;
+  public eventStack: [{jsonData: any, errorCode: number}] = [] as any;
   public loggedIn = false;
 
   private currentCommandId = 0;
@@ -48,7 +48,7 @@ export class GlobalService {
     this.currentCommandId += 1;
     return new Promise(resolve => {
       this.commandStack.push({id: this.currentCommandId, command, response: undefined});
-      const handle = setTimeout(() => {
+      const handle = setInterval(() => {
         const cmd = this.findCommandById(this.currentCommandId);
         if (cmd.response !== undefined) {
           const obj = cmd.response;
@@ -64,11 +64,13 @@ export class GlobalService {
   parseResponses() {
     this.websocket.onmessage = (e) => {
       const message = e.data;
-      if (message.startsWith('100')) {
+      console.log(message);
+      if (message.split(';').length === 1 && JSON.parse(message).errorCode.toString().startsWith('100')) {
         // It's an event.
         const response = JSON.parse(message);
         console.log(response);
         this.eventStack.push({jsonData: response.jsonData, errorCode: response.errorCode});
+        console.log(this.eventStack);
       } else {
         // It's an command.
         const commandResponse = message.split(';').length === 2 && JSON.parse(message.split(';')[1]) !== undefined;

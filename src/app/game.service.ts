@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GlobalService } from './global.service';
-import { Game } from 'src/helper/game';
+import { Game } from '../helper/game';
+import Card from 'src/helper/card';
 
 
 export class AlreadyIngameException extends Error {
@@ -22,54 +23,77 @@ export class NotIngameException extends Error {
 })
 export class GameService {
   public currentGame: Game = undefined;
-
+  public allGames: Game[] = [];
   constructor(private global: GlobalService) {
-    // Eventhandler - each 0.1 seconds all event's are being checked.
-    setTimeout(this.handleEvents, 100);
+    this.handleEvents();
   }
 
+  // Eventhandler - each 0.1 seconds all event's are being checked.
   handleEvents() {
-    for (let i = 0; i !== this.global.eventStack.length; i++) {
-      const event = this.global.eventStack[i];
-      const data = event.jsonData;
-      const errorCode = event.errorCode;
-      switch (errorCode) {
-        case 100000:
-          // Ping-event
-          this.global.websocket.send('PONG');
-          break;
-        case 100101:
-          // Card has been played event
-          break;
-        case 100102:
-          // Cardjizzer has picked a card event || aka Round over and winner found event
-          break;
-        case 100103:
-          // Player has joined the game event
-          if (!this.currentGame.addPlayer(data)) {
-            throw new Error('Player is already a part of the game.');
-          }
-          break;
-        case 100104:
-          // Game has started event
-          this.currentGame.start();
-          break;
-        case 100105:
-          // Game over event
-          this.currentGame.stop();
-          this.currentGame = undefined;
-          break;
-        case 100106:
-          // New round has started has started event
-          break;
-        case 100107:
-          // Cards have been flipped event
-          break;
-        case 100108:
-          // A new game has been created event
-          break;
+    setInterval(() => {
+      for (let i = 0; i !== this.global.eventStack.length; i++) {
+        const event = this.global.eventStack[i];
+        const data = event.jsonData;
+        const errorCode = event.errorCode;
+        console.log(data);
+        switch (errorCode) {
+          case 100000:
+            // Ping-event
+            this.global.websocket.send('PONG');
+            break;
+          case 100101:
+            // Card has been played event
+            const playeruuid = data.playeruuid;
+            const playerCards = this.currentGame.AllCards[playeruuid];
+            if (playerCards === undefined) {
+              this.currentGame.AllCards[playeruuid] = [];
+            }
+            playerCards[playerCards.length] =
+              new Card(this.currentGame.findPlayerByUUID(playeruuid).Username, undefined);
+            break;
+          case 100102:
+            // Cardjizzer has picked a card event || aka Round over and winner found event
+            this.currentGame.setRoundWinner(this.currentGame.findPlayerByUUID(data.winneruuid));
+            break;
+          case 100103:
+            // Player has joined the game event
+            if (!this.currentGame.addPlayer(data)) {
+              throw new Error('Player is already a part of the game.');
+            }
+            break;
+          case 100104:
+            // Game has started event
+            this.currentGame.start();
+            break;
+          case 100105:
+            // Game over event
+            this.currentGame.stop();
+            this.currentGame = undefined;
+            break;
+          case 100106:
+            // New round has started has started event
+            this.global.sendCommand('fetchcards', true).then(response => {
+              this.currentGame.updateHand(response.jsonData);
+            });
+            break;
+          case 100107:
+            // Cards have been flipped event
+            this.currentGame.overRideAllCards(data);
+            break;
+          case 100108:
+            // A new game has been created event
+            this.allGames.push(new Game(
+              data.title,
+              data.passwordRequired,
+              data.maxplayers,
+              data.id
+            ));
+            this.fetchGames();
+            break;
+        }
+        delete this.global.eventStack[i];
       }
-    }
+    }, 100);
   }
 
   fetchNames(): Promise<any[]> {
@@ -89,6 +113,7 @@ export class GameService {
       for (let i = 0; i !== response.jsonData.length; i++) {
         allGames.push(response.jsonData[i]);
       }
+      this.allGames = allGames;
       return allGames;
     });
   }

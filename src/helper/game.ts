@@ -10,7 +10,9 @@ export class Game {
     private title: string;
     private joinable: boolean;
 
-    private allCards: Card[];
+    private roundWinner: Player;
+
+    private allCards: {uuid: string, cards: Card[]};
     private players: Player[];
     private hand: Card[];
 
@@ -22,7 +24,7 @@ export class Game {
         this.title = title;
         this.id = id;
         this.joinable = maxPlayers >= 4;
-        this.allCards = [];
+        this.allCards = {} as any;
         this.players = [];
         this.hand = [];
         this.ingame = false;
@@ -63,12 +65,42 @@ export class Game {
         return false;
     }
 
+    public findPlayerByUUID(uuid: string) {
+        for (let i = 0; i !== this.players.length; i++) {
+            const player = this.players[i];
+            if (player.UUID.toString().toLowerCase() === uuid.toLowerCase()) {
+                return player;
+            }
+        }
+        return undefined;
+    }
+
+    public overRideAllCards(newAllCards: {uuid: string, cards: Card[]}) {
+        this.allCards = newAllCards;
+    }
+
     public start() {
         this.ingame = true;
     }
 
     public stop() {
         this.ingame = false;
+    }
+
+    public setRoundWinner(player: Player) {
+        this.roundWinner = player;
+        setTimeout(() => {
+            this.roundWinner = undefined;
+        }, 3 * 1000);
+    }
+
+    public newRound() {
+        this.allCards = {} as any;
+        this.hand = [] as any;
+    }
+
+    public updateHand(newHand: Card[]) {
+        this.hand = newHand;
     }
 
     get AmountOfCurrentPlayers() {
@@ -101,6 +133,10 @@ export class Game {
 
     get AllCards() {
         return this.allCards;
+    }
+
+    get RoundWinner() {
+        return this.roundWinner;
     }
 
 }

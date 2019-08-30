@@ -12,38 +12,23 @@ import { GlobalService } from '../global.service';
 export class AllGamesPage implements OnInit {
   @ViewChild('username', {read: ElementRef, static: false}) username: ElementRef;
 
-  games: Game[] = [new Game('TestGame', true, 20, '20')];
-
+  public games: Game[] = [] as any;
   constructor(
     private alertCtrl: AlertController,
     private gameService: GameService,
-    private globalService: GlobalService
   ) { }
 
   ngOnInit() { }
 
   ionViewWillEnter() {
-    console.log('MMH');
-  }
-  login() {
-    this.gameService.login(this.username.nativeElement.value).then(response => {
-      console.log(response);
+    this.gameService.fetchGames().then(() => {
+      this.games = this.gameService.allGames;
     });
   }
 
-  fetchGames() {
-    this.games = [];
-    this.gameService.fetchGames().then(response => {
+  login() {
+    this.gameService.login(this.username.nativeElement.value).then(response => {
       console.log(response);
-      for (let i = 0; i !== response.length; i++) {
-        const gameJSON = response[i];
-        this.games.push(new Game(
-          gameJSON.title,
-          false,
-          gameJSON.maxplayers,
-          gameJSON.id
-        ));
-      }
     });
   }
 
