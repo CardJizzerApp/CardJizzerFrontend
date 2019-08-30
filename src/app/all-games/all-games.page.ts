@@ -25,6 +25,11 @@ export class AllGamesPage implements OnInit {
       this.games = this.gameService.allGames;
     });
   }
+  fetchGames() {
+    this.gameService.fetchGames().then(() => {
+      this.games = this.gameService.allGames;
+    });
+  }
 
   login() {
     this.gameService.login(this.username.nativeElement.value).then(response => {
