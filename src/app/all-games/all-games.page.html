@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>ALL GAMES</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="createGame()">
+      <ion-button (click)="createGame()" *ngIf="globalService.loggedIn">
         CREATE GAME
         <ion-icon name="create" autoHide="false"></ion-icon>
       </ion-button>

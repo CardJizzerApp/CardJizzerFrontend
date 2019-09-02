@@ -14,10 +14,12 @@ export class AllGamesPage implements OnInit {
   @ViewChild('username', {read: ElementRef, static: false}) username: ElementRef;
 
   public games: Game[] = [] as any;
+
   constructor(
     private alertCtrl: AlertController,
     private navCtrl: NavController,
     private gameService: GameService,
+    private globalService: GlobalService
   ) { }
 
   ngOnInit() { }
