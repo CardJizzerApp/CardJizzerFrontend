@@ -1,10 +1,22 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>create-game</ion-title>
+    <ion-title>CREATE GAME</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
-  <ion-input id="title" (keydown)="createGame()"></ion-input>
+  <div class="form-group">
+      <input type="text" #title class="nice-input" placeholder="Title" />
+      <input type="password" #password class="nice-input" placeholder="Password" />
+      <input type="number" #maxPlayers class="nice-input" placeholder="Maximum Players" pattern="[0-9]"/>
+      <div class="deck-selector">
+        <div class="search-container">
+          <div class="search-field">
+            <input type="text" #deckQuery class="nice-input" id="deck-query" placeholder="Deck"/>
+          </div>
+          <button class="okay-btn search-btn btn">Search</button>
+        </div>
+      </div>
+      <button class="okay-btn btn">Create</button>
+  </div>
 </ion-content>

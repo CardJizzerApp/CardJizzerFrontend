@@ -35,7 +35,6 @@ export class GameService {
         const event = this.global.eventStack[i];
         const data = event.jsonData;
         const errorCode = event.errorCode;
-        console.log(data);
         switch (errorCode) {
           case 100000:
             // Ping-event
@@ -81,13 +80,34 @@ export class GameService {
             this.currentGame.overRideAllCards(data);
             break;
           case 100108:
-            // A new game has been created event
-            this.allGames.push(new Game(
-              data.title,
-              data.passwordRequired,
-              data.maxplayers,
-              data.id
-            ));
+            // // A game has changed event
+            // const action = data.action;
+            // switch (action) {
+            //   case 1:
+            //     // Game created
+            //     if (this.doesGameAlreadyExist(data.jsonData.id)) {
+            //       return false;
+            //     }
+            //     const jData = data.jsonData;
+            //     this.allGames.push(new Game(
+            //       jData.title,
+            //       jData.passwordRequired,
+            //       jData.maxplayers,
+            //       jData.id
+            //     ));
+            //     break;
+            //   case 2:
+            //     // Player joined
+            //     this.fetchGames();
+            //     break;
+            //   case 3:
+            //     // Player left
+            //     this.fetchGames();
+            //     break;
+            //   case 4:
+            //     // Game removed
+            //     this.fetchGames();
+            // }
             this.fetchGames();
             break;
         }
@@ -111,7 +131,10 @@ export class GameService {
     return this.global.sendCommand('fetchgames').then(response => {
       const allGames = [];
       for (let i = 0; i !== response.jsonData.length; i++) {
-        allGames.push(response.jsonData[i]);
+        response.jsonData[i].joinable = true;
+        console.log(response.jsonData[i]);
+        const data = response.jsonData[i];
+        allGames.push(new Game(data.title, data.passwordRequired, data.maxplayers, data.id));
       }
       this.allGames = allGames;
       return allGames;
@@ -195,8 +218,27 @@ export class GameService {
       if (this.currentGame !== undefined || response.errorCode !== 0) {
         throw new AlreadyIngameException();
       }
+      const data = response.jsonData;
+      this.currentGame = new Game(data.title, false, data.maxplayers, gameUUID);
       return response;
     });
+  }
+
+  getGame(gameUUID: string) {
+    for (let i = 0; i !== this.allGames.length; i++) {
+      const game = this.allGames[i];
+      if (game.Id.toLowerCase() === gameUUID.toLowerCase()) {
+        return game;
+      }
+    }
+    return undefined;
+  }
+
+  doesGameAlreadyExist(gameUUID: string) {
+    if (this.getGame(gameUUID) === undefined) {
+      return false;
+    }
+    return true;
   }
 
 }

@@ -64,13 +64,10 @@ export class GlobalService {
   parseResponses() {
     this.websocket.onmessage = (e) => {
       const message = e.data;
-      console.log(message);
       if (message.split(';').length === 1 && JSON.parse(message).errorCode.toString().startsWith('100')) {
         // It's an event.
         const response = JSON.parse(message);
-        console.log(response);
         this.eventStack.push({jsonData: response.jsonData, errorCode: response.errorCode});
-        console.log(this.eventStack);
       } else {
         // It's an command.
         const commandResponse = message.split(';').length === 2 && JSON.parse(message.split(';')[1]) !== undefined;

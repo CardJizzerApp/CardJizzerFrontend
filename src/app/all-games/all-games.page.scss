@@ -56,7 +56,15 @@
             height: 64px;
             font-size: 30pt;
             color: white;
-            background: linear-gradient(90deg, #2EB7A6 0%, #0DAB50 100%);
+        }
+        .cancel-btn {
+            border-radius: 50%;
+            text-align: center;
+            justify-content: center;
+            width: 64px;
+            font-size: 16pt;
+            height: 64px;
+            color: white;
         }
     }
 }

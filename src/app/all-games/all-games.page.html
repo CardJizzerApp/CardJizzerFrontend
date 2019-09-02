@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>ALL GAMES</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="createGame()">
+        CREATE GAME
+        <ion-icon name="create" autoHide="false"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -27,7 +33,7 @@
           <ion-icon name="arrow-round-forward"></ion-icon>
         </button>
         <button class="cancel-btn btn" (click)="joinGame(game)" *ngIf="!game.joinable">
-          <ion-icon name="arrow-round-forward"></ion-icon>
+          <ion-icon name="close"></ion-icon>
         </button>
       </div>
     </li>

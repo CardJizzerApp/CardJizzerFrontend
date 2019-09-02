@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { Game } from '../../helper/game';
 import { GameService } from '../game.service';
 import { GlobalService } from '../global.service';
+import { CreateGamePage } from '../create-game/create-game.page';
 
 @Component({
   selector: 'app-all-games',
@@ -15,6 +16,7 @@ export class AllGamesPage implements OnInit {
   public games: Game[] = [] as any;
   constructor(
     private alertCtrl: AlertController,
+    private navCtrl: NavController,
     private gameService: GameService,
   ) { }
 
@@ -33,12 +35,14 @@ export class AllGamesPage implements OnInit {
 
   login() {
     this.gameService.login(this.username.nativeElement.value).then(response => {
-      console.log(response);
+      if (response.errorCode === 0) {
+        return true;
+      }
+      return false;
     });
   }
 
   joinGame(game: Game) {
-    console.log(game.Id);
     if (game.PasswordRequired) {
       this.presentAlert();
     }
@@ -70,6 +74,10 @@ export class AllGamesPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  createGame() {
+    this.navCtrl.navigateForward('create-game');
   }
 
 }

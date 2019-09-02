@@ -17,7 +17,6 @@ export class CurrentGamePage implements OnInit {
   constructor(private game: GameService) { }
 
   ionViewWillEnter() {
-    console.log('Loaded');
     if (this.game.currentGame !== undefined) {
       this.shouldDisplayGamePanel = true;
     } else {
