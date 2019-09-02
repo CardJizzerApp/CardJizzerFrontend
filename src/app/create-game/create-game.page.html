@@ -8,15 +8,41 @@
   <div class="form-group">
       <input type="text" #title class="nice-input" placeholder="Title" />
       <input type="password" #password class="nice-input" placeholder="Password" />
-      <input type="number" #maxPlayers class="nice-input" placeholder="Maximum Players" pattern="[0-9]"/>
+      <input type="number" #maxPlayers class="nice-input" placeholder="Maximum Players... Default: 6" pattern="[0-9]"/>
+      <input type="number" #maxRoundDuration class="nice-input" placeholder="Round duration... Default: 60" pattern="[0-9]"/>
+      <input type="number" #pointsToWin class="nice-input" placeholder="Points to Win... Default: 8" pattern="[0-9]"/>
       <div class="deck-selector">
         <div class="search-container">
-          <div class="search-field">
-            <input type="text" #deckQuery class="nice-input" id="deck-query" placeholder="Deck"/>
+          <div class="top-elements">
+            <div class="search-field">
+              <input type="text" #deckQuery class="nice-input" (keyup)="query()" id="deck-query" placeholder="Deck"/>
+            </div>
+            <button class="okay-btn search-btn btn" (click)="query()">Search</button>
           </div>
-          <button class="okay-btn search-btn btn">Search</button>
+          <div class="body-elements">
+            <h6 *ngIf="searchResults != 1">{{searchResults}} search results</h6>
+            <h6 *ngIf="searchResults == 1">1 search result</h6>
+            <ul>
+              <li *ngFor="let deck of deckResults" class="{{classOfDeck(deck)}}">
+                <h1>{{deck.title}}</h1>
+                <ion-icon name="add-circle-outline" class="add-to-game" (click)="addDeck(deck)"></ion-icon>
+              </li>
+            </ul>
+          </div>
         </div>
+
+        <div class="decks-wrapper">
+          <h2>Decks</h2>
+          <div class="decks-container">
+            <div class="deck-btn" *ngFor="let deck of selectedDecks">
+              {{deck.Title}}
+              <ion-icon name="remove" class="remove-from-game" (click)="removeDeck(deck)"></ion-icon>
+            </div>
+          </div>
+        </div>
+      
       </div>
-      <button class="okay-btn btn">Create</button>
+
+      <button class="okay-btn btn" (click)="createGame()">Create</button>
   </div>
 </ion-content>
