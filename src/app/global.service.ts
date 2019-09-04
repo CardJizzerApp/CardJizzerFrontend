@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-
 export class NotLoggedInException extends Error {
   constructor() {
     super();
@@ -40,6 +39,7 @@ export class GlobalService {
   }
 
   sendCommand(command: string, logInRequired?: boolean): Promise<{errorCode: number, jsonData: any}> {
+    console.log(command);
     if (logInRequired) {
       if (!this.loggedIn || this.websocket === undefined || this.websocket.readyState !== 1) {
         throw new NotLoggedInException();
@@ -50,7 +50,7 @@ export class GlobalService {
       this.commandStack.push({id: this.currentCommandId, command, response: undefined});
       const handle = setInterval(() => {
         const cmd = this.findCommandById(this.currentCommandId);
-        if (cmd.response !== undefined) {
+        if (cmd !== undefined && cmd.response !== undefined) {
           const obj = cmd.response;
           delete this.commandStack[this.commandStack.indexOf(cmd)];
           clearTimeout(handle);
@@ -64,6 +64,7 @@ export class GlobalService {
   parseResponses() {
     this.websocket.onmessage = (e) => {
       const message = e.data;
+      console.log(message);
       if (message.split(';').length === 1 && JSON.parse(message).errorCode.toString().startsWith('100')) {
         // It's an event.
         const response = JSON.parse(message);
