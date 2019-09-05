@@ -130,9 +130,6 @@ export class GameService {
   }
 
   fetchGames(): Promise<any[]> {
-    // creategame maxplayers:number deckIds:number[] password:string pointsToWin:number maxRoundTime:number gameTitle:string
-    // creategame 4 0 false 20 SomeTitle
-    console.log(commandRefs.fetchGames());
     return this.global.sendCommand(commandRefs.fetchGames()).then(response => {
       console.log(response);
       const allGames = [];
@@ -140,7 +137,9 @@ export class GameService {
         response.jsonData[i].joinable = true;
         console.log(response.jsonData[i]);
         const data = response.jsonData[i];
-        allGames.push(new Game(data.title, data.passwordRequired, data.maxplayers, data.id));
+        const game = new Game(data.title, data.passwordRequired, data.maxplayers, data.id);
+        game.setPlayers(data.players);
+        allGames.push(game);
       }
       this.allGames = allGames;
       return allGames;

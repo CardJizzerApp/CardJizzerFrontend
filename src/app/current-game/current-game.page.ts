@@ -24,6 +24,8 @@ export class CurrentGamePage implements OnInit {
   ionViewWillEnter() {
     if (this.gameService.currentGame !== undefined) {
       this.shouldDisplayGamePanel = true;
+      this.fetchAllLaidCards();
+      this.fetchHand();
     } else {
       this.shouldDisplayGamePanel = false;
     }

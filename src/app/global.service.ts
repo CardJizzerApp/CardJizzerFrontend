@@ -4,6 +4,7 @@ export class NotLoggedInException extends Error {
   constructor() {
     super();
     Error.apply(this, arguments);
+    throw new Error('Not logged in!');
   }
 }
 
@@ -42,7 +43,7 @@ export class GlobalService {
     console.log(command);
     if (logInRequired) {
       if (!this.loggedIn || this.websocket === undefined || this.websocket.readyState !== 1) {
-        throw new NotLoggedInException();
+        throw new Error('Not logged in!');
       }
     }
     this.currentCommandId += 1;

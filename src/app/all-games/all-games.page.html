@@ -26,10 +26,9 @@
         <ion-icon name="lock"></ion-icon>
       </span>
       {{game.title}}
-      {{game.maxPlayers}}
       <div class="item-end">
-        <div class="current-players-icon">1/4</div>
-        <button class="join-btn btn" (click)="joinGame(game)" *ngIf="game.joinable">
+        <div class="current-players-icon">{{game.CurrentPlayers}}/{{game.maxPlayers}}</div>
+        <button class="join-btn okay-btn btn" (click)="joinGame(game)" *ngIf="game.joinable">
           <ion-icon name="arrow-round-forward"></ion-icon>
         </button>
         <button class="cancel-btn btn" (click)="joinGame(game)" *ngIf="!game.joinable">
