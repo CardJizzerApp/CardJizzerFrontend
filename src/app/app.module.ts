@@ -10,6 +10,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import {HttpClientModule} from '@angular/common/http';
+import {APP_BASE_HREF, Location} from '@angular/common';
+
+import { getBaseLocation } from './shared/common-functions.util';
 
 import * as Sentry from '@sentry/browser';
 
@@ -35,6 +38,8 @@ export class SentryErrorHandler implements ErrorHandler {
     StatusBar,
     HttpClientModule,
     SplashScreen,
+    { provide: APP_BASE_HREF,
+      useFactory: getBaseLocation},
     {provide: ErrorHandler, useClass: SentryErrorHandler},
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
