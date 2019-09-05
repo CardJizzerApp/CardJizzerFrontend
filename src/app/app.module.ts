@@ -39,7 +39,10 @@ export class SentryErrorHandler implements ErrorHandler {
     HttpClientModule,
     SplashScreen,
     // tslint:disable-next-line
-    { provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' },
+    {
+      provide: APP_BASE_HREF,
+      useValue: window['base-href']
+    },
     {provide: ErrorHandler, useClass: SentryErrorHandler},
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
