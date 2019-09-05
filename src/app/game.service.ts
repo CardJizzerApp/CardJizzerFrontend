@@ -152,12 +152,21 @@ export class GameService {
       if (this.currentGame === undefined || response.errorCode !== 0) {
         throw new NotIngameException();
       }
-      return response.jsonData;
+      return response.jsonData as Card[];
     });
   }
 
-  fetchAllPickedCards(): Promise<any[]> {
+  fetchAllLaidCards(): Promise<Card[]> {
     return this.global.sendCommand(commandRefs.fetchAllLaidCards(), true).then(response => {
+      if (this.currentGame === undefined || response.errorCode !== 0) {
+        throw new NotIngameException();
+      }
+      return response.jsonData as Card[];
+    });
+  }
+
+  fetchScoreBoard(): Promise<any[]> {
+    return this.global.sendCommand(commandRefs.fetchScoreBoard(), true).then(response => {
       if (this.currentGame === undefined || response.errorCode !== 0) {
         throw new NotIngameException();
       }
@@ -186,7 +195,7 @@ export class GameService {
   login(username): Promise<any> {
     return this.global.sendCommand(commandRefs.login(username), false).then(response => {
       this.global.loggedIn = response.errorCode === 0;
-      return response;
+      return response.jsonData;
     });
   }
 
@@ -198,13 +207,13 @@ export class GameService {
         if (this.currentGame !== undefined) {
           throw new AlreadyIngameException();
         }
-        return response;
+        return response.errorCode;
     });
   }
 
   logout(): Promise<any> {
     return this.global.sendCommand(commandRefs.logout(), true).then(response => {
-      return response;
+      return response.errorCode;
     });
   }
 
@@ -213,7 +222,7 @@ export class GameService {
       if (this.currentGame === undefined || response.errorCode !== 0) {
         throw new NotIngameException();
       }
-      return response;
+      return response.errorCode;
     });
   }
 
@@ -225,7 +234,7 @@ export class GameService {
       }
       const data = response.jsonData;
       this.currentGame = new Game(data.title, false, data.maxplayers, gameUUID);
-      return response;
+      return response.jsonData;
     });
   }
 

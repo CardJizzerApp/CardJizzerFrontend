@@ -84,4 +84,9 @@ export class Commands {
             command: 'logout'
         });
     }
+    public fetchScoreBoard() {
+        return JSON.stringify({
+            command: 'getscore',
+        });
+    }
 }
