@@ -11,3 +11,4 @@ Version 0.0.5:
 - [] Use the data fetched from server for the current game tab
 - [] Check if password is required, information fetched from server.
 - [X] Capture user crash report with Sentry
+- [X] Gitlab CI/CD

@@ -1,0 +1,37 @@
+variables:
+    IMAGE_NAME: "mypenink/cardjizzer"
+    EXPOSE_PORT_STAGING: 30005
+    EXPOSE_PORT_PROD: 30006
+    CONTAINER_NAME: "cardjizzer"
+    CONTAINER_PORT: 8100
+
+stages:
+    - build
+    - deploy-staging
+    - deploy-production
+    
+build:
+    stage: build
+    script:
+        - docker build -t $IMAGE_NAME .
+        - docker login -u mypenink -p $docker_pw
+        - docker push $IMAGE_NAME
+
+    
+deploy-staging:
+    stage: deploy-staging
+    script:
+        - docker rm -f ${CONTAINER_NAME}-staging || true
+        - docker rmi -f $IMAGE_NAME || true
+        - docker run -d -p $EXPOSE_PORT_STAGING:$CONTAINER_PORT --name ${CONTAINER_NAME}-staging $IMAGE_NAME
+
+deploy-production:
+    stage: deploy-production
+    only:
+      - tags
+    script:
+        - docker rm -f ${CONTAINER_NAME}-production || true
+        - docker rmi -f $IMAGE_NAME || true
+        - docker run -d -p $EXPOSE_PORT_PRODUCTION:$CONTAINER_PORT --name ${CONTAINER_NAME}-production $IMAGE_NAME
+
+  
