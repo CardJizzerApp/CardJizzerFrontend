@@ -10,7 +10,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="shouldDisplayGamePanel">
+<ion-content *ngIf="!shouldDisplayGamePanel">
 
   <div class="game-heading">
     <div class="game-card black">
@@ -35,7 +35,7 @@
 
 </ion-content>
 
-<ion-content *ngIf="!shouldDisplayGamePanel">
+<ion-content *ngIf="shouldDisplayGamePanel">
   <h1>Du bist aktuell in keinem Spiel</h1>
 
 </ion-content>

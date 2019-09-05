@@ -30,6 +30,10 @@ export class Game {
         this.ingame = false;
     }
 
+    public setPlayers(players) {
+        this.players = players;
+    }
+
     public addCardToHand(card: Card) {
         this.hand.push(card);
     }
@@ -137,6 +141,10 @@ export class Game {
 
     get RoundWinner() {
         return this.roundWinner;
+    }
+
+    get CurrentPlayers(): number {
+        return this.players.length;
     }
 
 }
