@@ -3,7 +3,7 @@ FROM node
 COPY . /var/server
 WORKDIR /var/server
 
-ENV BASE_HREF
+ENV BASE_HREF /
 
 RUN echo ${BASE_HREF}
 RUN if [ "$ENV" = "staging" ]; \
