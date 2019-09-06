@@ -4,9 +4,10 @@ COPY . /var/server
 WORKDIR /var/server
 
 ENV BASE_HREF /
+ENV NODE_ENV staging
 
 RUN echo ${BASE_HREF}
-RUN if [ "$ENV" = "staging" ]; \
+RUN if [ "$NODE_ENV" = "staging" ]; \
 	then npm install; \
 	else npm install --only=production; \
     fi
