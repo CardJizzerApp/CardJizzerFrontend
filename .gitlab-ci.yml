@@ -23,7 +23,7 @@ deploy-staging:
     script:
         - docker rm -f ${CONTAINER_NAME}-staging || true
         - docker rmi -f $IMAGE_NAME || true
-        - docker run -d -p $EXPOSE_PORT_STAGING:$CONTAINER_PORT --name ${CONTAINER_NAME}-staging $IMAGE_NAME
+        - docker run -d -p $EXPOSE_PORT_STAGING:$CONTAINER_PORT --name ${CONTAINER_NAME}-staging -e 'BASE_HREF=/staging/' $IMAGE_NAME
 
 deploy-production:
     stage: deploy-production
@@ -32,6 +32,6 @@ deploy-production:
     script:
         - docker rm -f ${CONTAINER_NAME}-production || true
         - docker rmi -f $IMAGE_NAME || true
-        - docker run -d -p $EXPOSE_PORT_PRODUCTION:$CONTAINER_PORT --name ${CONTAINER_NAME}-production --BASE_HREF='/staging/' $IMAGE_NAME
+        - docker run -d -p $EXPOSE_PORT_PRODUCTION:$CONTAINER_PORT --name ${CONTAINER_NAME}-production -e 'BASE_HREF=/production/' $IMAGE_NAME
 
   
