@@ -35,8 +35,7 @@ export class SentryErrorHandler implements ErrorHandler {
     StatusBar,
     HttpClientModule,
     SplashScreen,
-    // tslint:disable-next-line
-    {provide: ErrorHandler, useClass: SentryErrorHandler},
+    { provide: ErrorHandler, useClass: SentryErrorHandler },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
