@@ -33,10 +33,15 @@ export class SentryErrorHandler implements ErrorHandler {
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, OAuthModule.forRoot()],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    OAuthModule.forRoot(),
+    HttpClientModule,
+  ],
   providers: [
     StatusBar,
-    HttpClientModule,
     SplashScreen,
     GooglePlus,
     OAuthService,

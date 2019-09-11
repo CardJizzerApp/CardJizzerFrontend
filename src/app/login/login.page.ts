@@ -16,14 +16,22 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
+  ngAfterViewInit() {
+    gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'light',
+        'onsuccess': param => console.log(param)
+    });
+  }
+
+
   loginWithGoogleNative() {
     this.googlePlus.login({})
       .then(res => console.log(res))
       .catch(err => console.error(err));
-  }
-
-  loginWithGoogleDesktop() {
-    
   }
 
 }
