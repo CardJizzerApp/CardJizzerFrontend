@@ -3,7 +3,8 @@ import { AlertController, NavController } from '@ionic/angular';
 import { Game } from '../../helper/game';
 import { GameService } from '../game.service';
 import { GlobalService } from '../global.service';
-import { CreateGamePage } from '../create-game/create-game.page';
+import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-all-games',
@@ -19,12 +20,17 @@ export class AllGamesPage implements OnInit {
     private alertCtrl: AlertController,
     private navCtrl: NavController,
     private gameService: GameService,
-    private globalService: GlobalService
+    private globalService: GlobalService,
+    private storage: Storage,
+    private router: Router,
   ) { }
 
   ngOnInit() { }
 
   ionViewWillEnter() {
+    this.storage.get('user_information').then((information) => {
+      this.router.navigate(['/login']);
+    });
     this.gameService.fetchGames().then(() => {
       this.games = this.gameService.allGames;
     });
@@ -36,7 +42,7 @@ export class AllGamesPage implements OnInit {
   }
 
   login() {
-    this.gameService.login(this.username.nativeElement.value).then(response => {
+    this.gameService.login(this.username.nativeElement.value).then((response) => {
       if (response.errorCode === 0) {
         return true;
       }
@@ -65,7 +71,7 @@ export class AllGamesPage implements OnInit {
       buttons: [
         {
           text: 'Log in',
-          handler: data => {
+          handler: (data) => {
           }
         },
         {

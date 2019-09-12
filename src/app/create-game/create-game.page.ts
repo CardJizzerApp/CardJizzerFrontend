@@ -108,7 +108,7 @@ export class CreateGamePage implements OnInit {
       this.valueOf(this.pointsToWin),
       this.valueOf(this.password),
       this.decksToDeckIds()
-    ).then(response => {
+    ).then((response) => {
       console.log(response);
     });
   }

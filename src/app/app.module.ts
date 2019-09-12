@@ -9,10 +9,10 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import {HttpClientModule} from '@angular/common/http';
-
-import {GooglePlus} from '@ionic-native/google-plus/ngx';
-import {OAuthModule, OAuthService} from 'angular-oauth2-oidc';
+import { HttpClientModule } from '@angular/common/http';
+import { IonicStorageModule } from '@ionic/storage';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 
 import * as Sentry from '@sentry/browser';
 
@@ -39,6 +39,7 @@ export class SentryErrorHandler implements ErrorHandler {
     AppRoutingModule,
     OAuthModule.forRoot(),
     HttpClientModule,
+    IonicStorageModule.forRoot(),
   ],
   providers: [
     StatusBar,

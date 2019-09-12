@@ -39,19 +39,19 @@ export class CurrentGamePage implements OnInit {
   }
 
   fetchAllLaidCards() {
-    this.gameService.fetchAllLaidCards().then(response => {
+    this.gameService.fetchAllLaidCards().then((response) => {
       this.allCards = response;
     });
   }
 
   fetchHand() {
-    this.gameService.fetchHand().then(response => {
+    this.gameService.fetchHand().then((response) => {
       this.hand = response;
     });
   }
 
   playCard(cardid: string) {
-    this.gameService.playCard(cardid).then(response => {
+    this.gameService.playCard(cardid).then((response) => {
       if (response.errorCode !== 0) {
         return this.createErrorBox();
       }
@@ -59,7 +59,7 @@ export class CurrentGamePage implements OnInit {
   }
 
   pickCard(cardid: string) {
-    this.gameService.pickCard(cardid).then(response => {
+    this.gameService.pickCard(cardid).then((response) => {
       if (response.errorCode !== 0) {
         return this.createErrorBox();
       }
@@ -67,7 +67,7 @@ export class CurrentGamePage implements OnInit {
   }
 
   fetchScoreboard() {
-    this.gameService.fetchScoreBoard().then(response => {
+    this.gameService.fetchScoreBoard().then((response) => {
       this.scoreboard = response;
     });
   }
@@ -77,7 +77,7 @@ export class CurrentGamePage implements OnInit {
       header: 'An error occoured',
       animated: true,
       message: 'Card could not be played.'
-    }).then(alert => {
+    }).then((alert) => {
       alert.present();
     });
   }

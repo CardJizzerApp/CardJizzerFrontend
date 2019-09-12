@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {GooglePlus} from '@ionic-native/google-plus/ngx';
-import {Platform} from '@ionic/angular';
-
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { Platform } from '@ionic/angular';
+declare var gapi: any;
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -13,25 +13,24 @@ export class LoginPage implements OnInit {
 
   constructor(private googlePlus: GooglePlus, public platform: Platform) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  ngAfterViewInit() {
+  ionViewDidEnter() {
     gapi.signin2.render('my-signin2', {
-        'scope': 'profile email',
-        'width': 240,
-        'height': 50,
-        'longtitle': true,
-        'theme': 'light',
-        'onsuccess': param => console.log(param)
+        scope: 'profile email',
+        width: 240,
+        height: 50,
+        longtitle: true,
+        theme: 'light',
+        onsuccess: (param) => console.log(param)
     });
   }
 
 
   loginWithGoogleNative() {
     this.googlePlus.login({})
-      .then(res => console.log(res))
-      .catch(err => console.error(err));
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err));
   }
 
 }

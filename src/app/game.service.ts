@@ -75,7 +75,7 @@ export class GameService {
             break;
           case 100106:
             // New round has started has started event
-            this.global.sendCommand('fetchcards', true).then(response => {
+            this.global.sendCommand('fetchcards', true).then((response) => {
               this.currentGame.updateHand(response.jsonData);
             });
             break;
@@ -121,7 +121,7 @@ export class GameService {
   }
 
   fetchNames(): Promise<any[]> {
-    return this.global.sendCommand(commandRefs.start()).then(response => {
+    return this.global.sendCommand(commandRefs.start()).then((response) => {
       if (this.currentGame === undefined || response.errorCode !== 0) {
         throw new NotIngameException();
       }
@@ -130,7 +130,7 @@ export class GameService {
   }
 
   fetchGames(): Promise<any[]> {
-    return this.global.sendCommand(commandRefs.fetchGames()).then(response => {
+    return this.global.sendCommand(commandRefs.fetchGames()).then((response) => {
       console.log(response);
       const allGames = [];
       for (let i = 0; i !== response.jsonData.length; i++) {
@@ -147,7 +147,7 @@ export class GameService {
   }
 
   fetchHand(): Promise<any[]> {
-    return this.global.sendCommand(commandRefs.fetchCards(), true).then(response => {
+    return this.global.sendCommand(commandRefs.fetchCards(), true).then((response) => {
       if (this.currentGame === undefined || response.errorCode !== 0) {
         throw new NotIngameException();
       }
@@ -156,7 +156,7 @@ export class GameService {
   }
 
   fetchAllLaidCards(): Promise<Card[]> {
-    return this.global.sendCommand(commandRefs.fetchAllLaidCards(), true).then(response => {
+    return this.global.sendCommand(commandRefs.fetchAllLaidCards(), true).then((response) => {
       if (this.currentGame === undefined || response.errorCode !== 0) {
         throw new NotIngameException();
       }
@@ -165,7 +165,7 @@ export class GameService {
   }
 
   fetchScoreBoard(): Promise<any[]> {
-    return this.global.sendCommand(commandRefs.fetchScoreBoard(), true).then(response => {
+    return this.global.sendCommand(commandRefs.fetchScoreBoard(), true).then((response) => {
       if (this.currentGame === undefined || response.errorCode !== 0) {
         throw new NotIngameException();
       }
@@ -174,7 +174,7 @@ export class GameService {
   }
 
   playCard(cardUUID): Promise<any> {
-    return this.global.sendCommand(commandRefs.playCard(cardUUID), true).then(response => {
+    return this.global.sendCommand(commandRefs.playCard(cardUUID), true).then((response) => {
       if (this.currentGame === undefined || response.errorCode !== 0) {
         throw new NotIngameException();
       }
@@ -183,7 +183,7 @@ export class GameService {
   }
 
   pickCard(cardUUID): Promise<any> {
-    return this.global.sendCommand(commandRefs.pickCard(cardUUID), true).then(response => {
+    return this.global.sendCommand(commandRefs.pickCard(cardUUID), true).then((response) => {
       if (this.currentGame === undefined || response.errorCode !== 0) {
         throw new NotIngameException();
       }
@@ -192,7 +192,7 @@ export class GameService {
   }
 
   login(username): Promise<any> {
-    return this.global.sendCommand(commandRefs.login(username), false).then(response => {
+    return this.global.sendCommand(commandRefs.login(username), false).then((response) => {
       this.global.loggedIn = response.errorCode === 0;
       return response.jsonData;
     });
@@ -202,7 +202,7 @@ export class GameService {
     return this.global.sendCommand(
       commandRefs.createGame(title, maxPlayers, deckIds, maxRoundDuration, pointsToWin, password),
       true
-      ).then(response => {
+      ).then((response) => {
         if (this.currentGame !== undefined) {
           throw new AlreadyIngameException();
         }
@@ -211,13 +211,13 @@ export class GameService {
   }
 
   logout(): Promise<any> {
-    return this.global.sendCommand(commandRefs.logout(), true).then(response => {
+    return this.global.sendCommand(commandRefs.logout(), true).then((response) => {
       return response.errorCode;
     });
   }
 
   start(): Promise<any> {
-    return this.global.sendCommand(commandRefs.start(), true).then(response => {
+    return this.global.sendCommand(commandRefs.start(), true).then((response) => {
       if (this.currentGame === undefined || response.errorCode !== 0) {
         throw new NotIngameException();
       }
@@ -226,7 +226,7 @@ export class GameService {
   }
 
   join(gameUUID): Promise<any> {
-    return this.global.sendCommand(commandRefs.join(gameUUID), true).then(response => {
+    return this.global.sendCommand(commandRefs.join(gameUUID), true).then((response) => {
       console.log(response);
       if (this.currentGame !== undefined || response.errorCode !== 0) {
         throw new AlreadyIngameException();
