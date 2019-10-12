@@ -6,9 +6,9 @@
   "rules": {
     "indent": 4,
     "array-type": false,
-    "arrow-parens": false,
+    "arrow-parens": true,
     "deprecation": {
-      "severity": "warn"
+      "severity": "error"
     },
     "import-blacklist": [
       true,
@@ -41,7 +41,11 @@
       "timeEnd",
       "trace"
     ],
+    "whitespace": [true, "check-branch", "check-operator", "check-typecast", "check-module"],
+    "import-spacing": false,
+    "no-irregular-whitespace": true,
     "no-empty": false,
+    "only-arrow-functions": true,
     "no-inferrable-types": [
       true,
       "ignore-params"
@@ -84,6 +88,7 @@
       "app",
       "page",
       "kebab-case"
-    ]
+    ],
+    "space-in-brackets": false
   }
 }

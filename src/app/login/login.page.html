@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button block (click)="loginWithGoogleNative()" *ngIf="!isDesktop">
+    Sign in with google
+  </ion-button>
+  <div id="my-signin2" *ngIf="isDesktop"></div>
+</ion-content>

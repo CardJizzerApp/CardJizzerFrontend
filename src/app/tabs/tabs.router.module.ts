@@ -13,7 +13,7 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('../all-games/all-games.module').then(m => m.AllGamesPageModule)
+              import('../all-games/all-games.module').then((m) => m.AllGamesPageModule)
           }
         ]
       },
@@ -23,7 +23,7 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('../current-game/current-game.module').then(m => m.CurrentGamePageModule)
+              import('../current-game/current-game.module').then((m) => m.CurrentGamePageModule)
           }
         ]
       },
@@ -33,7 +33,7 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('../your-decks/your-decks.module').then(m => m.YourDecksPageModule)
+              import('../your-decks/your-decks.module').then((m) => m.YourDecksPageModule)
           }
         ]
       },
@@ -43,7 +43,7 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('../create-game/create-game.module').then(m => m.CreateGamePageModule)
+              import('../create-game/create-game.module').then((m) => m.CreateGamePageModule)
           }
         ]
       },
@@ -53,7 +53,7 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('../create-deck/create-deck.module').then(m => m.CreateDeckPageModule)
+              import('../create-deck/create-deck.module').then((m) => m.CreateDeckPageModule)
           }
         ]
       },

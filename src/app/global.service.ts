@@ -23,14 +23,14 @@ export class GlobalService {
   private currentCommandId = 0;
   constructor() {
     this.websocket = new WebSocket(this.WEBSOCKETURL);
-    this.websocket.onclose = ev => {
+    this.websocket.onclose = (ev) => {
       this.sendCommand('logout');
     };
     this.parseResponses();
   }
 
   login(username) {
-    this.sendCommand('setusername ' + username).then(response => {
+    this.sendCommand('setusername ' + username).then((response) => {
       if (response.errorCode === 0) {
         this.loggedIn = true;
         return true;
@@ -47,7 +47,7 @@ export class GlobalService {
       }
     }
     this.currentCommandId += 1;
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.commandStack.push({id: this.currentCommandId, command, response: undefined});
       const handle = setInterval(() => {
         const cmd = this.findCommandById(this.currentCommandId);

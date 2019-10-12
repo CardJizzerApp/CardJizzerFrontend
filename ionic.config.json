@@ -1,5 +1,7 @@
 {
   "name": "CAH",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
