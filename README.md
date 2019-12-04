@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="./resources/logo.svg">
+    <img src="./src/assets/logo.svg">
     <h1>CardJizzers' Frontend</h1>
     <h3>The frontend of CardJizzer.</h3>
 </div>
